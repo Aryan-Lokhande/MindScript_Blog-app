@@ -6,6 +6,7 @@ import Dashboard from "./pages/admin/Dashboard";
 import Addblog from "./pages/admin/Addblog";
 import Listblog from "./pages/admin/Listblog";
 import Comments from "./pages/admin/Comments";
+import Login from "./components/admin/Login";
 
 function App() {
   return (
@@ -13,7 +14,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/blog/:id" element={<Blog />} />
-        <Route path="/admin" element={<Layout/>}>
+        {/* <Route path="/admin" element={<Layout/>}> */}
+        <Route path="/admin" element={false ? <Layout/> : <Login/>}>
           <Route index element={<Dashboard/>} />
           <Route path="comments" element={<Comments/>} />
           <Route path="addblog" element={<Addblog/>} />
