@@ -2,6 +2,8 @@ import express from 'express'
 import 'dotenv/config'
 import cors from 'cors'
 import connectDB from './configs/db.js';
+import adminRouter from './routes/adminroutes.js';
+// import 
 
 const app = express();
 
@@ -15,10 +17,12 @@ app.listen(port, ()=>
 app.use(cors());
 app.use(express.json());
 
-//backend
+//Route
 app.get('/', (req,res)=>{
     res.send("API is working");
 });
+app.use('/api/admin', adminRouter);
+
 
 
 export default app;
