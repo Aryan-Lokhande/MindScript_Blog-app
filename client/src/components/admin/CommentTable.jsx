@@ -11,7 +11,7 @@ export default function CommentTable({ comment, fetchComments }) {
         <br />
         <br />
         <b className="font-medium text-gray-600">Name</b> : {comment.name} <br />
-        <b className="font-medium text-gray-600">Comment</b> : {comment.comment} 
+        <b className="font-medium text-gray-600">Comment</b> : {comment.content} 
       </td>
       <td className="px-6 py-4 max-sm:hidden">
         {BlogDate.toLocaleDateString()}
@@ -21,11 +21,10 @@ export default function CommentTable({ comment, fetchComments }) {
             {!comment.isApproved ? 
             <img src={assets.tick_icon} alt="" className="w-5 hover:scale-110 transition-all cursor-pointer"/> : <p className="text-xs border border-green-600 bg-green-100 text-green-600 rounded-full px-3 py-1">Approved</p>
             }
-            <img src={assets.bin} alt="" className="w-5 hover:scale-110 transition-all cursor-pointer"/>
+            <img src={assets.bin_icon} alt="" className="w-5 hover:scale-110 transition-all cursor-pointer"/>
         </div>
-        {BlogDate.toLocaleDateString()}
+        
       </td>
-
     </tr>
   );
 }

@@ -33,7 +33,8 @@ export default function Comments() {
             </tr>
           </thead>
           <tbody>
-            {comments.filter((comment) =>{ if(filter === "Approved") return comment.isApproved === true;
+            {comments.filter((comment) =>{ 
+              if(filter === "Approved") return comment.isApproved === true;
             return comment.isApproved === false}).map((comment, index) =>  <CommentTable key={comment._id} comment={comment} index={index + 1} fetchComments={fetchComments} /> )} 
           </tbody>
         </table>
