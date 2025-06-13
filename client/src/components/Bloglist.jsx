@@ -2,9 +2,25 @@ import React from "react";
 import { blog_data, blogCategories } from "../assets/assets";
 import { motion } from "motion/react"
 import BlogCard from "./BlogCard";
+import { useAppContext } from "../context/AppContext";
 
 export default function bloglist() {
   const [menu, setMenu] = React.useState("All");
+  const {blogs, input} = useAppContext();
+
+  const filteredBlogs = ()=>{
+    if(input === ''){
+      console.log("Empty blog array")
+      return blogs;
+    }
+    // console.log(blog.title)
+    // console.log(input)
+    // console.log("Atleat reach for search")
+    
+    return blogs.filter((blog)=>
+      blog.title.toLowerCase().includes(input.toLowerCase()) || blog.category.toLowerCase().includes(input.toLowerCase())
+  )
+  }
   return (
     <div>
       <div className="flex justify-center gap-4 sm:gap-8 my-10 ralative">
@@ -19,7 +35,7 @@ export default function bloglist() {
       </div>
       {/* blog cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4 sm:px-8">
-        {blog_data.filter((blog) => {
+        {filteredBlogs().filter((blog) => {
           if (menu === "All") return true;
           return blog.category === menu;
         }).map((blog) => <BlogCard key={blog._id} blog={blog}/>)}
