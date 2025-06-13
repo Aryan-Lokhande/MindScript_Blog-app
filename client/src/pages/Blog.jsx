@@ -4,26 +4,56 @@ import { useParams } from "react-router-dom";
 import { assets, blog_data, comments_data } from "../assets/assets";
 import Moment from "moment";
 import Footer from "../components/Footer";
+import { useAppContext } from "../context/AppContext";
+import toast from "react-hot-toast";
 
 export default function Blog() {
   const { id } = useParams();
+
+  const {axios} = useAppContext();
+
   const [data, setData] = useState(null);
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState([{
+            "_id": "6811ed9e7836a82ba747cb25",
+            "blog": blog_data[0],
+            "name": "Michael Scott",
+            "content": "This is my new comment",
+            "isApproved": false,
+            "createdAt": "2025-04-30T09:30:06.918Z",
+            "updatedAt": "2025-04-30T09:30:06.918Z",
+            "__v": 0
+        }]);
   const [name, setName] = useState("");
   const [content, setContent] = useState("");
 
+  const fetchBlogData = async () => {
+    try {
+      const {data} = await axios.get(`/api/blog/${id}`);
+      data.success ? setData(data.blog) : toast.error(error.message);
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+  
   const fetchComments = async () => {
-    setComments(comments_data);
-    // setComments(comments_data.filter((comment) => comment._id === id));
+    try {
+      const {data} = await axios.get('/api/blog/comments', {blogId: id});
+      (data.success) ? setComments(data.comments) : toast.error(error.message);
+      // if(data.success){
+      //   toast.success("Blog fetch successfully");
+      // }
+
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
-  const fetchBlogData = async () => {
-    const data = blog_data.find((item) => {
-      if (item._id === id) {
-        setData(item);
-      }
-    });
-  };
+  const addComments = async (e)=>{
+    e.prventDefault();
+  }
+
+  // console.log(comments.length)
+
   useEffect(() => {
     fetchBlogData();
     fetchComments();
@@ -53,6 +83,7 @@ export default function Blog() {
         {/* comment section */}
         <div className="mt-14 mb-10 max-w-3xl mx-auto">
           <p className="font-semibold mb-4">Comments ({comments.length})</p>
+          {}
           <div className="flex flex-col gap-4">
             {comments.map((comment, index) => (
               <div
@@ -75,7 +106,7 @@ export default function Blog() {
             <form className="flex flex-col items-start gap-4 max-w-lg">
               <input onChange={(e)=> setName(e.target.value)} type="text" className="w-full p-2 border border-gray-300 rounded outline-none" required placeholder="Name" value={name}/>
 
-              <textarea onClick={(e)=> setContent(e.target.value)} className="w-full p-2 border border-gray-300 rounded outline-none h-48" placeholder="Comment" required value={content}></textarea>
+              <textarea onChange={(e)=> setContent(e.target.value)} className="w-full p-2 border border-gray-300 rounded outline-none h-48" placeholder="Comment" required value={content}></textarea>
               
               <button type="submit" className="bg-primary text-white rounded p-2 px-8 hover:scale-102 transition-all cursor-pointer">Submit</button>
             </form>

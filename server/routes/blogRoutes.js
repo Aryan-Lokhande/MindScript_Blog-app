@@ -5,14 +5,14 @@ import auth from '../middleware/auth.js';
 
 const blogRouter = express.Router();
 
+//Comments Route
+blogRouter.post('/add-comment',addComment);
+blogRouter.get('/comments',getBlogComments);
+
 blogRouter.post('/add', upload.single('image'), auth, addBlog);
 blogRouter.get('/all', getAllBlogs);
 blogRouter.get('/:blogId', getBlogById);
 blogRouter.post('/delete', auth, deleteBlogById);
 blogRouter.post('/toggle-publish', auth, togglePublish);
-
-//Comments Route
-blogRouter.post('/add-comment',addComment);
-blogRouter.get('/comments',getBlogComments);
 
 export default blogRouter;

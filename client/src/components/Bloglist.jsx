@@ -10,12 +10,8 @@ export default function bloglist() {
 
   const filteredBlogs = ()=>{
     if(input === ''){
-      console.log("Empty blog array")
       return blogs;
     }
-    // console.log(blog.title)
-    // console.log(input)
-    // console.log("Atleat reach for search")
     
     return blogs.filter((blog)=>
       blog.title.toLowerCase().includes(input.toLowerCase()) || blog.category.toLowerCase().includes(input.toLowerCase())
