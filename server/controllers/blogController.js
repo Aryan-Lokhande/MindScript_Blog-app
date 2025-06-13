@@ -1,4 +1,6 @@
-import jwt from 'jsonwebtoken'
+import fs from 'fs'
+import imagekit from '../configs/imageKit.js';
+import Blog from '../models/Blog.js';
 
 export const addBlog = async (req, res)=>{
     try {
@@ -9,7 +11,76 @@ export const addBlog = async (req, res)=>{
         if(!title || !imageFile || !description || !category ){
             return res.json({success : false, message: "Missing required fields"});
         }
+        const fileBuffer = fs.readFileSync(imageFile.path);
+
+        // uploading image in imagekit
+        const responce = await imagekit.upload({
+            file : fileBuffer,
+            fileName : imageFile.originalname,
+            folder: "/blogs"
+        });
+
+        // optimizing img through imagekit
+        let optimizeImgUrl = imagekit.url({
+            path: responce.filePath,
+            transformation :[
+                { quality : 'auto' }, //Auto Compression
+                { format : 'webp' }, // convert to modern format 
+                {width : 1280}      // width resize
+            ]
+        })
+
+        const image = optimizeImgUrl;
+
+        await Blog.create({title, subTitle, description, category, image, isPublished});
+        res.json({success : true, massage: "Blog added successfully"});
     } catch (error) {
-        res.json({success : false, massage: err.message});
+        res.json({success : false, massage: error.message});
+    }
+}
+
+export const getAllBlogs = async (req,res)=>{
+    try {
+        const blogs = await Blog.find({isPublished: true});
+        res.json({success : true, blogs});
+    } catch (error) {
+        res.json({success: false, message: error.message});        
+    }
+}
+
+export const getBlogById = async (req,res)=>{
+    try{
+        const {blogId} = req.params;
+        const blog = await Blog.findById(blogId);
+        if(!blog){
+            res.json({success: false, message: "Invalid ID"});
+        }
+        res.json({success : true, blog});        
+    }catch(error){
+        res.json({success: false, message: error.message});
+    }
+}
+
+export const deleteBlogById = async (req,res)=>{
+    try{
+        const { id } = req.body;
+        await Blog.findByIdAndDelete(id);
+
+        res.json({success : true, message: "Blog Deleted succcessfully"});
+        
+    }catch(error){
+        res.json({success: false, message: error.message});
+    }
+}
+
+export const togglePublish = async (req,res)=>{
+    try{
+        const {id} = req.body;
+        const blog = await Blog.findById(id);
+        blog.isPublished = !blog.isPublished;
+        await blog.save();
+        res.json({success: true, message: `Blog status updated ${blog.isPublished}`});
+    }catch(error){
+        res.json({success: false, message: error.message});
     }
 }
