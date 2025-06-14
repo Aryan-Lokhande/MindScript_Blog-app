@@ -6,30 +6,30 @@ export const adminLogin = async (req,res)=>{
     try{
         const {email, password} = req.body;
         if(email != process.env.ADMIN_EMAIL || password != process.env.ADMIN_PASSWORD){
-            return res.json({success : false, massage: "Invalid Credentials"});
+            return res.json({success : false, message: "Invalid Credentials"});
         }
         const token = jwt.sign({email}, process.env.JWT_SECRET );
         res.json({success: true, token});
     }catch(err){
-        res.json({success : false, massage: err.message});
+        res.json({success : false, message: err.message});
     }
 }
 
 export const getAllBlogsAdmin = async (req,res)=>{
     try {
         const blogs = await Blog.find({}).sort({createAt : -1});
-        res.json({success : true, massage: blogs});        
+        res.json({success : true, blogs});
     } catch (error) {
-        res.json({success : false, massage: err.message});        
+        res.json({success : false, message: err.message});        
     }
 }
 
 export const getAllComments = async (req,res)=>{
     try {
         const comments = await Comment.find({}).populate("blog").sort({createAt : -1});
-        res.json({success : true, massage: comments});
+        res.json({success : true, message: comments});
     } catch (error) {
-        res.json({success : false, massage: err.message});
+        res.json({success : false, message: err.message});
     }
 }
 
@@ -42,9 +42,9 @@ export const getDashboard = async (req,res)=>{
         const DashboardData = {
             blogs, comments, drafts, recentBlogs
         }
-        res.json({success : true, massage: DashboardData});        
+        res.json({success : true, message: DashboardData});        
     } catch (error) {
-        res.json({success : false, massage: err.message});        
+        res.json({success : false, message: err.message});        
     }
 }
 
@@ -52,9 +52,9 @@ export const deleteCommentById = async (req, res)=>{
     try {
         const {id} = req.body;
         await Comment.findByIdAndDelete(id);
-        res.json({success : true, massage: "Comment Deleted Successfully"});        
+        res.json({success : true, message: "Comment Deleted Successfully"});        
     } catch (error) {
-        res.json({success : false, massage: err.message});        
+        res.json({success : false, message: err.message});        
     }
 }
 
@@ -62,8 +62,8 @@ export const approveCommentByID = async (req, res)=>{
     try {
         const {id} = req.body;
         await Comment.findByIdAndDelete(id, {isApproved : true});
-        res.json({success : true, massage: "Comment Approved Successfully"});        
+        res.json({success : true, message: "Comment Approved Successfully"});        
     } catch (error) {
-        res.json({success : false, massage: err.message});        
+        res.json({success : false, message: err.message});        
     }
 }
