@@ -7,7 +7,7 @@ const blogRouter = express.Router();
 
 //Comments Route
 blogRouter.post('/add-comment',addComment);
-blogRouter.get('/comments',getBlogComments);
+blogRouter.post('/comments',getBlogComments);
 
 blogRouter.post('/add', upload.single('image'), auth, addBlog);
 blogRouter.get('/all', getAllBlogs);

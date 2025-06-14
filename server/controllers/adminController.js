@@ -27,7 +27,7 @@ export const getAllBlogsAdmin = async (req,res)=>{
 export const getAllComments = async (req,res)=>{
     try {
         const comments = await Comment.find({}).populate("blog").sort({createAt : -1});
-        res.json({success : true, message: comments});
+        res.json({success : true, comments});
     } catch (error) {
         res.json({success : false, message: err.message});
     }
@@ -39,12 +39,12 @@ export const getDashboard = async (req,res)=>{
         const recentBlogs = await Blog.find({}).sort({createAt : -1}).limit(5);
         const comments = await Comment.countDocuments();
         const drafts = await Blog.countDocuments({isPublished: false});
-        const DashboardData = {
+        const dashboardData = {
             blogs, comments, drafts, recentBlogs
         }
-        res.json({success : true, message: DashboardData});        
+        res.json({success : true,  dashboardData});
     } catch (error) {
-        res.json({success : false, message: err.message});        
+        res.json({success : false, message: err.message});
     }
 }
 
@@ -52,16 +52,17 @@ export const deleteCommentById = async (req, res)=>{
     try {
         const {id} = req.body;
         await Comment.findByIdAndDelete(id);
-        res.json({success : true, message: "Comment Deleted Successfully"});        
+        res.json({success : true, message: "Comment Deleted Successfully"});
     } catch (error) {
-        res.json({success : false, message: err.message});        
+        res.json({success : false, message: err.message});
     }
 }
 
 export const approveCommentByID = async (req, res)=>{
     try {
         const {id} = req.body;
-        await Comment.findByIdAndDelete(id, {isApproved : true});
+        console.log(id);
+        await Comment.findByIdAndUpdate(id, {isApproved : true});
         res.json({success : true, message: "Comment Approved Successfully"});        
     } catch (error) {
         res.json({success : false, message: err.message});        

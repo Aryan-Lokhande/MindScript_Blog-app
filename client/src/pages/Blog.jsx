@@ -28,7 +28,7 @@ export default function Blog() {
 
    const fetchComments = async () => {
        try{
-         const {data} = await axios.get(`/api/blog/comments`, {blogId : id})
+         const {data} = await axios.post(`/api/blog/comments`, {blogId : id})
          if(data.success){
           setComment(data.comments)
          } else{
@@ -86,7 +86,7 @@ export default function Blog() {
           <p className='font-semibold mb-4'>Comments ({comment.length}) </p>  
           <div className='flex flex-col gap-4'>
              {comment.map((item, index) => (
-              <div key={index} className='comment-box relative border max-w-xl p-4 rounded text-gray-600'>
+              <div key={index} className='bg-primary/8 relative border max-w-xl p-4 rounded text-gray-600'>
                 <div className='flex items-center gap-2 mb-2'>
                   <img src={assets.user_icon} alt="user" className='w-6' />
                   <p className='font-medium'>{item.name}</p>

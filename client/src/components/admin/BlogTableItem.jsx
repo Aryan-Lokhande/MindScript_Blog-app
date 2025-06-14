@@ -10,7 +10,7 @@ export default function BlogTableItem({ blog, fetchBlogs, index }) {
   const {axios} = useAppContext();  
   
   const deleteBlog = async () => {
-    const confirm = window.confirm('Are you sure you want to delete this blog?')
+    const confirm = window.confirm('Are you sure you want to delete this blog?');
     if(!confirm) return;
      try{
        const {data} = await axios.post('/api/blog/delete', {id: blog._id})
