@@ -3,10 +3,12 @@ import { assets, blogCategories } from "../../assets/assets";
 import Quill from "quill";
 import { useAppContext } from "../../context/AppContext";
 import toast from "react-hot-toast";
+import {parse} from "marked"
 
 export default function Addblog() {
   const {axios} = useAppContext();
   const [isAdding, setIsAdding] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const quillRef = useRef(null);
   const editorRef = useRef(null);
@@ -50,6 +52,22 @@ export default function Addblog() {
   }
 
   const generateContent = async () => {
+    if(!title.trim()){ // adding trim method because "Title cannot be empty or just spaces"
+      return toast.error("Not getting Title");
+    }
+    try {
+      setLoading(true);
+      const {data} = await axios.post('/api/blog/generate', {prompt: title.trim()});
+      if(data.success){
+        quillRef.current.root.innerHTML = parse(data.content);
+      }else{
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }finally{
+      setLoading(false);
+    }
 
   }
   useEffect(() => {
@@ -77,9 +95,22 @@ export default function Addblog() {
         <p className="mt-4">Blog Description</p>
         <div className="max-w-lg h-74 pb-16 sm:pb-10 pt-2 relative">
           <div ref={editorRef} className="ql-toolbar ql-snow"> </div>
-          
-          <button className="absolute bottom-1 right-2 ml-2 text-xs text-white bg-black/70 px-4 py-1.5 rounded hover:underline cursor-pointer" type="button" onClick={generateContent}>Generate with AI</button>
+
+          {loading && (
+            <div className="absolute inset-0 flex justify-center items-center bg-black/20 z-10">
+              <div className="w-8 h-8 rounded-full border-2 border-t-white animate-spin border-gray-300"></div>
+            </div>
+          )}
+          <button
+            disabled={loading}
+            className="absolute bottom-1 right-2 ml-2 text-xs text-white bg-black/70 px-4 py-1.5 rounded hover:underline cursor-pointer"
+            type="button"
+            onClick={generateContent}
+          >
+            {"Generate with AI"}
+          </button>
         </div>
+
         <p className="mt-8">Blog Category</p>
         <select onChange={e => setCategory(e.target.value)} name="category" className="mt-2 px-3 py-2 border text-gray-500 border-gray-300 outline-none rounded" >
           <option value="">Select Category</option>

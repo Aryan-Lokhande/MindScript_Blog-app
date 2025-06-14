@@ -2,6 +2,7 @@ import fs from 'fs'
 import imagekit from '../configs/imageKit.js';
 import Blog from '../models/Blog.js';
 import Comment from '../models/comment.js';
+import main from '../configs/gemini.js'
 
 export const addBlog = async (req, res)=>{
     try {
@@ -93,7 +94,7 @@ export const addComment = async (req, res)=>{
         await Comment.create({blog, name, content});
         res.json({success: true, message: "Comment add for review"});        
     } catch (error) {
-        res.json({success: false, message: error.message});        
+        res.json({success: false, message: error.message});
     }
 }
 
@@ -101,8 +102,18 @@ export const getBlogComments = async (req, res)=>{
     try {
         const {blogId } = req.body;
         const comments = await Comment.find({blog: blogId, isApproved: true}).sort({createdAt: -1});
-        res.json({success: true, comments});        
+        res.json({success: true, comments});
     } catch (error) {
-        res.json({success: false, message: error.message});        
+        res.json({success: false, message: error.message});
+    }
+}
+
+export const generateContent = async (req,res) =>{
+    try {
+        const {prompt} = req.body;
+        const content = await main(prompt + " Generate a blog connent for this topic in simple text format (the generated text is directly post on blog without any changes, so don't keep block to fill by me)");
+        res.json({success: true, content});
+    } catch (error) {
+        res.json({success: false, message: error.message});
     }
 }
