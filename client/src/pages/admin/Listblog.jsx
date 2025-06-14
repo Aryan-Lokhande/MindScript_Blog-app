@@ -10,7 +10,6 @@ export default function Listblog() {
   const fetchBlogs = async () => {
     try {
       const {data} = await axios.get('/api/admin/blogs');
-      console.log(data);
       if(data.success){
         setBlogs(data.blogs);
       }else{
