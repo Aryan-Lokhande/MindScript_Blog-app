@@ -25,10 +25,10 @@ export default function Listblog() {
   }, []);
 
   return (
-    <div className="flex-1 pt-5 px-5 sm:pt-12 sm:pl-16 bg-blue-50/50">
+    <div className="flex-1 pt-5 px-5 sm:pt-12 sm:pl-16 bg-background/40">
       <h1>All blogs</h1>
       <div className="relative mt-4 h-4/5 max-w-4xl overflow-x-auto shadow rounded-lg scrollbar-hide bg-white">
-        <table className="w-full text-sm text-gray-500">
+        <table className="w-full text-sm text-gray-500 bg-background/8">
           <thead className="text-xs text-gray-600 text-left uppercase">
             <tr>
               <th scope="col" className="px-2 py-4 xl:px-6">#</th>

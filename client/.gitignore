@@ -13,6 +13,7 @@ dist-ssr
 *.local
 .env
 theme.txt
+logo.html
 
 # Editor directories and files
 .vscode/*

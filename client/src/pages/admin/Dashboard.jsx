@@ -30,7 +30,7 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div className="flex-1 p-4 md:p-10 bg-blue-50/50">
+    <div className="flex-1 p-4 md:p-10 bg-background/40">
       <div className="flex flex-wrap gap-4">
         <div className="flex items-center gap-4 bg-white p-4 min-w-58 rounded shadow cursor-pointer hover:scale-105 transition-all">
           <img src={assets.dashboard_icon_1} alt="" />
