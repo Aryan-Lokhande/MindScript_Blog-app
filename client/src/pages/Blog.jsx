@@ -114,19 +114,27 @@ export default function Blog() {
 
           <div className='my-24 max-w-3xl mx-auto'>
            <p className='font-semibold my-4'>Share this article on social media</p>
-           
-            <div className='flex gap-3'>
-             <img src={assets.facebook_icon} alt="facebook" width={50}/>
-             <img src={assets.twitter_icon} alt="twitter" width={50}/>
-             <img src={assets.googleplus_icon} alt="google" width={50}/>
-            </div>
+            <div className="flex gap-3">
+              <div className="w-[50px] h-[50px] flex items-center justify-center rounded-full bg-white shadow-md text-primary hover:scale-105 transition-transform cursor-pointer">
+                <i className="fab fa-facebook-f text-xl"></i>
+              </div>
+              <div className="w-[50px] h-[50px] flex items-center justify-center rounded-full bg-white shadow-md text-primary hover:scale-105 transition-transform cursor-pointer">
+                <i className="fab fa-twitter text-xl"></i>
+              </div>
+              <div className="w-[50px] h-[50px] flex items-center justify-center rounded-full bg-white shadow-md text-primary hover:scale-105 transition-transform cursor-pointer">
+                <i className="fab fa-google-plus-g text-xl"></i>
+              </div>
+              <div className="w-[50px] h-[50px] flex items-center justify-center rounded-full bg-white shadow-md text-primary hover:scale-105 transition-transform cursor-pointer">
+                <i className="fa-brands fa-whatsapp text-xl"></i>
+              </div>
             </div>
           </div>
+        </div>
       <Footer />
     </div>
   ) : <div className="flex items-center justify-center h-screen">
         <h1 className="text-2xl font-bold">Loading...</h1>
-      </div>  
+      </div>
        
 }
 

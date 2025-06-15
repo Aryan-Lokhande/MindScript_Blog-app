@@ -7,11 +7,8 @@ export default function Footer() {
       <div className="flex flex-col md:flex-row items-start justify-between gap-10 py-10 border-b border-gray-500/30 text-gray-500">
         <div>
           <img src={assets.logo} alt="logo" className="w-32 sm:w-44" />
-          <p className="max-w-[410px] mt-5 text-sm md:text-base">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur ab
-            nulla ea dolorem repudiandae fugit, corrupti, similique quis
-            perferendis vero voluptatem natus fuga aliquid voluptates ullam aut
-            doloribus nihil rerum?
+          <p className="max-w-[410px] mt-4 text-sm md:text-base">
+            Built using the MERN stack, MindScript is a modern blogging web app designed to give writers a clean, intuitive space to create and share content. Integrated with AI features for content suggestions, it simplifies writing and boosts creativity.
           </p>
         </div>
         <div className="flex flex-wrap justify-between w-full md:w-[45%] gap-5"> {footer_data.map((section,index)=>(

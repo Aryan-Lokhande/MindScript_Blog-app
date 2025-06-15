@@ -12,6 +12,12 @@
   --color-text: #1f2937; /* slate-800 */
 }
 
+.icon{
+  color: #fff8e7;
+}
+
+.header-name{ letter-spacing: 1px; }
+
 .rich-text { font-size: 15px;  }
 
 .rich-text p { margin-bottom: 16px; color: #292929; }
