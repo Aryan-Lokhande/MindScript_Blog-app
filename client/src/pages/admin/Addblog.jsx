@@ -90,7 +90,7 @@ export default function Addblog() {
         <input type="text" placeholder="Type here" required className="w-full max-w-lg mt-2 p-2 border border-gray-300 outline-none rounded" onChange={(e)=> setTitle(e.target.value)} value={title}/>
         
         <p className="mt-4">Sub title</p>
-        <input type="text" placeholder="Type here" required className="w-full max-w-lg mt-2 p-2 border border-gray-300 outline-none rounded" onChange={(e)=> setSubTitle(e.target.value)} value={subTitle}/>
+        <input type="text" placeholder="Type here" className="w-full max-w-lg mt-2 p-2 border border-gray-300 outline-none rounded" onChange={(e)=> setSubTitle(e.target.value)} value={subTitle}/>
 
         <p className="mt-4">Blog Description</p>
         <div className="max-w-lg h-74 pb-16 sm:pb-10 pt-2 relative">
