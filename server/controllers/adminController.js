@@ -3,13 +3,28 @@ import Blog from '../models/Blog.js';
 import Comment from '../models/comment.js';
 
 export const adminLogin = async (req,res)=>{
-    try{
-        const {email, password} = req.body;
-        if(email != process.env.ADMIN_EMAIL || password != process.env.ADMIN_PASSWORD){
-            return res.json({success : false, message: "Invalid Credentials"});
+    const {email, password} = req.body;
+    let role = null;
+    let expectedPassword = null;
+
+    try {
+        if (email === process.env.ADMIN_EMAIL) {
+            role = "admin";
+            expectedPassword = process.env.ADMIN_PASSWORD;
+        } else if (email === process.env.DEMO_EMAIL) {
+            role = "demoUser";
+            expectedPassword = process.env.DEMO_PASSWORD;
+        } else {
+            return res.json({ success : false, message: "User not found" });
         }
-        const token = jwt.sign({email}, process.env.JWT_SECRET );
-        res.json({success: true, token});
+
+        if (password !== expectedPassword) {
+            return res.json({ success: false, message: "Invalid Credentials" });
+        }
+
+        const token = jwt.sign({ email, role }, process.env.JWT_SECRET );
+
+        return res.json({success: true, token, role,});
     }catch(err){
         res.json({success : false, message: err.message});
     }
@@ -50,6 +65,9 @@ export const getDashboard = async (req,res)=>{
 
 export const deleteCommentById = async (req, res)=>{
     try {
+        if (req.user.role !== "admin") {
+            return res.json({success: false, message: "Only admin has the auth to DELETE a comment"});
+        }
         const {id} = req.body;
         await Comment.findByIdAndDelete(id);
         res.json({success : true, message: "Comment Deleted Successfully"});
@@ -60,6 +78,9 @@ export const deleteCommentById = async (req, res)=>{
 
 export const approveCommentByID = async (req, res)=>{
     try {
+        if (req.user.role !== "admin") {
+            return res.json({success: false, message: "Only admin has the auth to APPROVE Comment"});
+        }
         const {id} = req.body;
         console.log(id);
         await Comment.findByIdAndUpdate(id, {isApproved : true});

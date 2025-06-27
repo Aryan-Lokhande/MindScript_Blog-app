@@ -6,6 +6,9 @@ import main from '../configs/gemini.js'
 
 export const addBlog = async (req, res)=>{
     try {
+        if (req.user.role !== "admin") {
+            return res.json({success: false, message: "oops Sorry..!\nOnly admin can add new Blog"});
+        }
         const {title, subTitle, description, category, isPublished} = JSON.parse(req.body.blog);
         const imageFile = req.file;
 
@@ -65,6 +68,9 @@ export const getBlogById = async (req,res)=>{
 
 export const deleteBlogById = async (req,res)=>{
     try{
+        if (req.user.role !== "admin") {
+            return res.json({success: false, message: "oops Sorry...!\nOnly admin has the auth to Delete the blog"});
+        }
         const { id } = req.body;
         await Blog.findByIdAndDelete(id);
         //delete all comments associated with blog
@@ -78,6 +84,9 @@ export const deleteBlogById = async (req,res)=>{
 
 export const togglePublish = async (req,res)=>{
     try{
+        if (req.user.role !== "admin") {
+            return res.json({success: false, message: "Only admin has the auth to toggle blog"});
+        }
         const {id} = req.body;
         const blog = await Blog.findById(id);
         blog.isPublished = !blog.isPublished;
