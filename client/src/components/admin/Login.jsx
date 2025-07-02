@@ -28,7 +28,13 @@ export default function Login() {
         }
     }
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className="flex flex-col items-center justify-center h-screen space-y-6">
+      <div className="bg-background border-l-4 border-yellow-500 p-4 rounded shadow-md text-sm my-4">
+        <p className="font-semibold text-yellow-600">Demo Credentials:</p>
+        <p className="pt-0.5"><span className="font-medium">Admin</span> → <code>admin@mindscript.com</code>, &nbsp;<span className="font-medium">Pass: </span> <code>mindscript forever</code></p>
+        <p><span className="font-medium">DemoUser</ span> → <code>demo@mindscript.com</code>,&nbsp; <span className="font-medium">Pass: </span> <code>Demo@123</code></p>
+      </div>
+      
       <div className="w-full max-w-sm p-6 max-md:m-6 border border-primary/30 shadow-xl shadow-primary/15 rounded-lg">
         <div className="flex flex-col items-center justify-center">
             <div className="w-full py-6 text-center">
